@@ -1,9 +1,11 @@
-import ProfileSidebar from "./HashtagsSidebar";
+import HashtagSidebar from "./HashtagsSidebar";
+import Posts from "./Posts";
 
 export default function HomePage() {
    return (
     <>
-      <ProfileSidebar />
+      <HashtagSidebar />
+      <Posts />
     </>
   );
 }
