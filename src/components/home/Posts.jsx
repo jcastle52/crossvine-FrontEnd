@@ -1,33 +1,70 @@
-import useQuery from "../../api/useQuery";
-import useMutation from "../../api/useMutation";
+import { useState, useEffect, useCallback } from "react";
+import { useApi } from "../../api/ApiContext";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Posts() {
-  const { data: posts, loading, error } = useQuery("/posts", "posts");
-  const { mutate: likePost } = useMutation("POST", "/posts/like", ["posts"]);
-  const { mutate: dislikePost } = useMutation("POST", "/posts/dislike", [
-    "posts",
-  ]);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const { request } = useApi();
+  const { isLoggedIn } = useAuth();
+
+  const loadPosts = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const result = await request("/posts");
+      setPosts(result.posts || []);
+    } catch (err) {
+      console.error("Error loading posts:", err);
+      setError(err.message || "Failed to load posts");
+    } finally {
+      setLoading(false);
+    }
+  }, [request]);
+
+  // Load posts on component mount
+  useEffect(() => {
+    loadPosts();
+  }, [loadPosts]);
 
   const handleLike = async (postId) => {
+    if (!isLoggedIn()) {
+      alert("Please log in to like posts");
+      return;
+    }
+
     try {
-      await likePost({ postId });
+      await request(`/posts/${postId}/like`, { method: "POST" });
+      // Reload posts to get updated counts
+      loadPosts();
     } catch (err) {
       console.error("Error liking post:", err);
+      alert("Failed to like post");
     }
   };
 
   const handleDislike = async (postId) => {
+    if (!isLoggedIn()) {
+      alert("Please log in to dislike posts");
+      return;
+    }
+
     try {
-      await dislikePost({ postId });
+      await request(`/posts/${postId}/dislike`, { method: "POST" });
+      // Reload posts to get updated counts
+      loadPosts();
     } catch (err) {
       console.error("Error disliking post:", err);
+      alert("Failed to dislike post");
     }
   };
 
   if (loading) {
     return (
       <div className="posts-feed">
-        <h3>Posts</h3>
+        <h3>Recent Posts</h3>
         <p>Loading posts...</p>
       </div>
     );
@@ -36,73 +73,80 @@ export default function Posts() {
   if (error) {
     return (
       <div className="posts-feed">
-        <h3>Posts</h3>
+        <h3>Recent Posts</h3>
         <p style={{ color: "#e74c3c" }}>Error loading posts: {error}</p>
+        <button onClick={loadPosts} style={{ marginTop: "10px" }}>
+          Try Again
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="posts-feed">
+    <div className="posts-section">
       <h3>Recent Posts</h3>
       {posts && posts.length > 0 ? (
         posts.map((post) => (
-          <div key={post.id} className="post">
+          <div key={post.id} className="post saved-post">
             <div className="post-content">
-              <div className="post-header">
-                <strong className="profile-link">
-                  {post.user_owner || "Anonymous"}
-                </strong>
-                <small style={{ color: "#7f8c8d", marginLeft: "8px" }}>
-                  {post.created_at
-                    ? new Date(post.created_at).toLocaleDateString()
-                    : ""}
-                </small>
+              <p>
+                <strong>
+                  <a href="#" className="profile-link">
+                    {post.authorUsername || post.user_owner || "Anonymous"}
+                  </a>
+                  :
+                </strong>{" "}
+                {post.content}
+              </p>
+
+              <div className="post-actions">
+                <div className="vote-buttons">
+                  <button
+                    className="like-btn"
+                    onClick={() => handleLike(post.id)}
+                    disabled={!isLoggedIn()}
+                  >
+                    👍 <span className="like-count">{post.likes || 0}</span>
+                  </button>
+                  <button
+                    className="dislike-btn"
+                    onClick={() => handleDislike(post.id)}
+                    disabled={!isLoggedIn()}
+                  >
+                    👎{" "}
+                    <span className="dislike-count">{post.dislikes || 0}</span>
+                  </button>
+                </div>
               </div>
 
-              {post.title && (
-                <h4 style={{ margin: "8px 0 4px 0", color: "#2d5a3d" }}>
-                  {post.title}
-                </h4>
-              )}
-
-              {post.content && (
-                <p style={{ margin: "4px 0 8px 0" }}>{post.content}</p>
-              )}
-
-              {post.url && (
-                <a
-                  href={post.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    color: "#27ae60",
-                    textDecoration: "none",
-                    fontSize: "14px",
-                  }}
-                >
-                  🔗 {post.url}
-                </a>
-              )}
-            </div>
-
-            <div className="post-actions">
-              <button className="like-btn" onClick={() => handleLike(post.id)}>
-                👍 <span className="like-count">{post.likes || 0}</span>
-              </button>
-              <button
-                className="dislike-btn"
-                onClick={() => handleDislike(post.id)}
-              >
-                👎 <span className="dislike-count">{post.dislikes || 0}</span>
-              </button>
+              <small>
+                {post.created_at
+                  ? new Date(post.created_at).toLocaleDateString()
+                  : post.timestamp
+                  ? new Date(post.timestamp).toLocaleDateString()
+                  : "Unknown date"}
+              </small>
             </div>
           </div>
         ))
       ) : (
-        <p style={{ color: "#7f8c8d", fontStyle: "italic" }}>
-          No posts yet. Be the first to share something!
-        </p>
+        <div className="post saved-post no-posts-message">
+          <div className="post-content">
+            <p
+              style={{
+                textAlign: "center",
+                color: "#666",
+                fontStyle: "italic",
+                padding: "20px",
+              }}
+            >
+              No posts yet.{" "}
+              {isLoggedIn()
+                ? "Share your first post above!"
+                : "Sign in to create posts!"}
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );
