@@ -1,42 +1,124 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
-import { useAuth } from "./AuthContext";
-
-/** A form that allows users to log into an existing account. */
 export default function Login() {
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [error, setError] = useState(null);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-  const onLogin = async (formData) => {
-    const username = formData.get("username");
-    const password = formData.get("password");
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    // Basic validation
+    if (!formData.username || !formData.password) {
+      setError("Please fill in both username and password.");
+      return;
+    }
+
+    console.log("Login form data:", {
+      username: formData.username,
+      password: "***",
+    });
+
+    setLoading(true);
+
     try {
-      await login({ username, password });
-      navigate("/");
-    } catch (e) {
-      setError(e.message);
+      const result = await login(formData.username, formData.password);
+
+      if (result.success) {
+        console.log("Login successful");
+        navigate("/"); // Redirect to home page
+      } else {
+        setError(
+          result.error || "Login failed. Please check your credentials."
+        );
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(err.message || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <>
-      <h1>Log in to your account</h1>
-      <form action={onLogin}>
-        <label>
-          Username
-          <input type="username" name="username" required />
-        </label>
-        <label>
-          Password
-          <input type="password" name="password" required />
-        </label>
-        <button>Login</button>
-        {error && <output>{error}</output>}
-      </form>
-      <Link to="/register">Need an account? Register here.</Link>
-    </>
+    <div className="register-layout">
+      <div className="register-container">
+        <h1 id="formTitle">Welcome Back</h1>
+        <p className="register-subtitle" id="formSubtitle">
+          Sign in to your Crossvine account
+        </p>
+
+        <form onSubmit={handleSubmit} className="register-form">
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              value={formData.username}
+              onChange={handleInputChange}
+              required
+              disabled={loading}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+              disabled={loading}
+            />
+          </div>
+
+          {error && (
+            <div
+              className="error-message"
+              style={{ color: "#e74c3c", marginBottom: "10px" }}
+            >
+              {error}
+            </div>
+          )}
+
+          <button type="submit" className="register-btn" disabled={loading}>
+            {loading ? "Signing In..." : "Sign In"}
+          </button>
+        </form>
+
+        <div className="login-link">
+          <p>
+            Don&apos;t have an account?{" "}
+            <Link to="/register">Register here</Link>
+          </p>
+        </div>
+      </div>
+
+      <div className="logo-display">
+        <img src="/IMG/LOGO.png" alt="Crossvine Logo" className="main-logo" />
+      </div>
+    </div>
   );
 }

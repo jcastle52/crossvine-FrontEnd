@@ -1,11 +1,16 @@
-import HashtagSidebar from "./HashtagsSidebar";
+import CreatePost from "./CreatePost";
 import Posts from "./Posts";
 
 export default function HomePage() {
-   return (
-    <>
-      <HashtagSidebar />
-      <Posts />
-    </>
+  return (
+    <div className="profile-container">
+      {/* Create Post Section */}
+      <CreatePost />
+
+      {/* Posts Section */}
+      <div className="posts-area">
+        <Posts />
+      </div>
+    </div>
   );
 }

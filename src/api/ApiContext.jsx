@@ -1,32 +1,40 @@
-import { createContext, useContext, useState } from "react";
-import { useAuth } from "../auth/AuthContext";
+import { createContext, useState, useContext } from "react";
 export const API = import.meta.env.VITE_API;
 
 const ApiContext = createContext();
 
 export function ApiProvider({ children }) {
-  const { token } = useAuth();
+  const token = localStorage.getItem("crossvine_token");
   const headers = { "Content-Type": "application/json" };
-  if (token) headers["Authorization"] = `Bearer ${token}`; 
+  if (token) headers["Authorization"] = `Bearer ${token}`;
 
-  const request = async (resource, options) => { 
-    const response = await fetch(API + resource, {
-      ...options,
-      headers,
-    });
-    const isJson = /json/.test(response.headers.get("Content-Type")); 
-    const result = isJson ? await response.json() : undefined; 
-    if (!response.ok) throw Error(result?.message ?? "Something went wrong :(");
-    return result;
+  const request = async (resource, options) => {
+    console.log("API Request:", API + resource, options);
+    try {
+      const response = await fetch(API + resource, {
+        ...options,
+        headers,
+      });
+      console.log("API Response:", response.status, response.statusText);
+      const isJson = /json/.test(response.headers.get("Content-Type"));
+      const result = isJson ? await response.json() : undefined;
+      console.log("API Result:", result);
+      if (!response.ok)
+        throw Error(result?.message ?? "Something went wrong :(");
+      return result;
+    } catch (error) {
+      console.error("API Error:", error);
+      throw error;
+    }
   };
 
   const [tags, setTags] = useState({});
 
-  const provideTag = (tag, query) => { 
+  const provideTag = (tag, query) => {
     setTags({ ...tags, [tag]: query });
   };
 
-  const invalidateTags = (tagsToInvalidate) => { 
+  const invalidateTags = (tagsToInvalidate) => {
     tagsToInvalidate.forEach((tag) => {
       const query = tags[tag];
       if (query) query();

@@ -31,7 +31,7 @@ body {
   font-family: Arial, sans-serif;
   display: flex;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   background-image: var(--bg-image);
   background-size: cover;
   background-position: center;
@@ -225,16 +225,30 @@ body {
 
 /* Main content area */
 .main-content {
-  margin-left: 250px;
-  margin-right: 0; /* Remove right margin to extend background */
-  margin-top: 60px;
-  padding: 20px;
-  padding-right: 320px; /* Add padding for right sidebar space */
-  width: calc(100% - 250px); /* Only account for left sidebar */
-  height: calc(100vh - 60px);
+  position: absolute;
+  top: 60px;
+  left: 250px;
+  right: 0;
+  bottom: 0;
+  padding: 20px; /* Uniform padding for all content */
+  padding-right: 320px; /* More space so content doesn't touch right sidebar */
   overflow-y: auto;
   background-color: var(--main-content-bg);
   transition: background-color 0.3s ease;
+}
+
+/* Auth pages should be centered on full screen */
+.main-content .register-layout {
+  position: absolute;
+  top: 0;
+  left: -125px;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px;
 }
 
 /* Hashtag Sections */
@@ -309,10 +323,10 @@ body {
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  margin: 0 0 20px 0; /* Simple uniform margins */
 }
 
-/* Profile Container - Posts only */
+/* Profile Container - Use same spacing as main content */
 .profile-container {
   width: 100%;
 }
@@ -503,7 +517,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   border: 2px solid #27ae60;
-  margin-top: 20px;
+  margin: 0; /* Simple uniform margins */
 }
 
 .posts-section h3 {
@@ -519,7 +533,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   border: 2px solid #27ae60;
-  margin-bottom: 20px;
+  margin: 0 0 20px 0; /* Simple uniform margins */
 }
 
 .create-post-section h3 {

@@ -1,3 +1,5 @@
+import ThemeToggle from "../theme/ThemeToggle";
+
 export default function HashtagsSidebar() {
   return (
     <div className="sidebar">
@@ -19,21 +21,7 @@ export default function HashtagsSidebar() {
         </div>
       </div>
 
-      <div className="theme-toggle-section">
-        <div className="theme-toggle">
-          <span className="theme-label">Theme</span>
-          <div className="toggle-switch">
-            <input type="checkbox" id="themeToggle" className="toggle-checkbox" />
-            <label htmlFor="themeToggle" className="toggle-label">
-              <span className="toggle-slider">
-                <span className="toggle-icon light">☀️</span>
-                <span className="toggle-icon dark">🌙</span>
-              </span>
-            </label>
-          </div>
-        </div>
-      </div>
+      <ThemeToggle />
     </div>
-    
-  )
+  );
 }
