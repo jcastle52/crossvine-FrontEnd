@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "./AuthContext";
 
 export default function Register() {
   const [formData, setFormData] = useState({

@@ -1,10 +1,11 @@
 import { createContext, useState, useContext } from "react";
+import { useAuth } from "../auth/AuthContext";
 export const API = import.meta.env.VITE_API;
 
 const ApiContext = createContext();
 
 export function ApiProvider({ children }) {
-  const token = localStorage.getItem("crossvine_token");
+  const { token } = useAuth();
   const headers = { "Content-Type": "application/json" };
   if (token) headers["Authorization"] = `Bearer ${token}`;
 

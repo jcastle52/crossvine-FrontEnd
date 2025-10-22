@@ -1,5 +1,5 @@
 import CreatePost from "./CreatePost";
-import Posts from "./Posts";
+//import Posts from "./Posts";
 
 export default function HomePage() {
   return (
@@ -9,7 +9,7 @@ export default function HomePage() {
 
       {/* Posts Section */}
       <div className="posts-area">
-        <Posts />
+        
       </div>
     </div>
   );

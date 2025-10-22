@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../auth/AuthContext";
 import { useApi } from "../../api/ApiContext";
 
 export default function CreatePost() {
   const [content, setContent] = useState("");
-  const { isLoggedIn, getCurrentUser } = useAuth();
+  const { token } = useAuth();
   const { request } = useApi();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
   // Don't render if user is not logged in
-  if (!isLoggedIn()) {
+  if (!token()) {
     return null;
   }
 
@@ -25,11 +25,11 @@ export default function CreatePost() {
       return; // Prevent multiple submissions
     }
 
-    const currentUser = getCurrentUser();
-    if (!currentUser) {
-      setError("Please log in to create posts");
-      return;
-    }
+    // const currentUser = getCurrentUser();
+    // if (!currentUser) {
+    //   setError("Please log in to create posts");
+    //   return;
+    // }
 
     setIsSubmitting(true);
     setError("");

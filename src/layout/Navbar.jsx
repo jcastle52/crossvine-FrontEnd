@@ -1,8 +1,8 @@
 import { NavLink } from "react-router";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../auth/AuthContext";
 
 export default function Navbar() {
-  const { isLoggedIn, logout } = useAuth();
+  const { token, logout } = useAuth();
   return (
     <header id="navbar" className="topbar">
       <NavLink to="/" className="logo-link">
@@ -31,7 +31,7 @@ export default function Navbar() {
           Home
         </NavLink>
 
-        {isLoggedIn() ? (
+        {token ? (
           <>
             <NavLink
               to="/"
