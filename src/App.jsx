@@ -4,15 +4,17 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import HomePage from "./components/home/HomePage";
 import ProfilePage from "./components/profile/ProfilePage";
+import UsersPage from "./components/users/UsersPage";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
-        <Route path="register" element={<Register />} />
-        <Route path="login" element={<Login />} />
-        <Route path="profile" element={<ProfilePage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/users/:username" element={<UsersPage />} />
       </Route>
     </Routes>
   );

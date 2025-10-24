@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "./AuthContext";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -39,14 +39,18 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const result = await login(formData.username, formData.password);
+      const credentials = {
+        username: formData.username,
+        password: formData.password
+      }
+      const result = await login(credentials);
 
-      if (result.success) {
+      if (result) {
         console.log("Login successful");
         navigate("/"); // Redirect to home page
       } else {
         setError(
-          result.error || "Login failed. Please check your credentials."
+          result || "Login failed. Please check your credentials."
         );
       }
     } catch (err) {
