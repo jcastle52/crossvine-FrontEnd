@@ -1,8 +1,7 @@
 import useQuery from "../../api/useQuery";
 
-export default function ProfilePosts(user) {
-  const { data: posts, error, loading } = useQuery(`/users/${user.username}/posts`, "userPosts");
-
+export default function ProfilePosts() {
+  const { data: user, error, loading } = useQuery(`/users/profile`, "userPosts");
   if (error) return (
     <>
         <h1>{error}</h1>
@@ -13,7 +12,8 @@ export default function ProfilePosts(user) {
         <h1>Loading</h1>
     </>
   )
-  if (posts)
+  if (user) {
+    const posts = user.posts
     return (
       <div className="posts-area">
         <div className="posts-section">
@@ -43,6 +43,7 @@ export default function ProfilePosts(user) {
         </div>
       </div>
     );
+  }
 }
 
         // {posts &&

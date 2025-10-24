@@ -1,11 +1,11 @@
 import { useAuth } from "../../auth/AuthContext";
 import ProfileSidebar from "../home/ProfileSidebar";
 import ProfilePosts from "./ProfilePosts";
-import useQuery from "../../api/useQuery";
+import ProfileCreate from "./ProfileCreate";
 
 export default function ProfilePage() {
   const { token } = useAuth();
-  const { data: user } = useQuery(`/users/profile`, "userData");
+
 
   if (!token) {
     return (
@@ -15,10 +15,11 @@ export default function ProfilePage() {
         </div>
       </>
     );
-  } if (user) 
+  } else
     return (
       <>
-      <ProfilePosts username={user.username} />
+      <ProfileCreate />
+      <ProfilePosts />
         <ProfileSidebar />
       </>
     );

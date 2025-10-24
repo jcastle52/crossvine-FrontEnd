@@ -16,10 +16,10 @@ export function ApiProvider({ children }) {
         ...options,
         headers,
       });
-      console.log("API Response:", response.status, response.statusText);
+      //console.log("API Response:", response.status, response.statusText);
       const isJson = /json/.test(response.headers.get("Content-Type"));
       const result = isJson ? await response.json() : undefined;
-      console.log("API Result:", result);
+      //console.log("API Result:", result);
       if (!response.ok)
         throw Error(result?.message ?? "Something went wrong :(");
       return result;
