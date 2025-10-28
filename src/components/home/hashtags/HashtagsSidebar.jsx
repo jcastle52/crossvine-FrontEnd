@@ -1,13 +1,25 @@
-import ThemeToggle from "../theme/ThemeToggle";
+import ThemeToggle from "../../theme/ThemeToggle";
+import { useAuth } from "../../../auth/AuthContext";
+import UserHashtags from "./UserHashtags";
 
-export default function HashtagsSidebar() {
+export default function HashtagsSidebar({ setSearchArr }) {
+  const { token } = useAuth();
+
   return (
     <div className="sidebar">
       <div className="sidebar-content">
         <div className="hashtag-section">
           <h3>Saved Hashtags</h3>
           <div className="saved-hashtags">
-            <p className="no-hashtags">Sign up to save hashtags!</p>
+            {token ? (
+              <>
+                <UserHashtags setSearchArr={setSearchArr} />
+              </>
+            ) : (
+              <>
+                <p className="no-hashtags">Sign up or login to save hashtags!</p>
+              </>
+            )}
           </div>
         </div>
         <div className="hashtag-section">

@@ -10,7 +10,7 @@ export function ApiProvider({ children }) {
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
   const request = async (resource, options) => {
-    console.log("API Request:", API + resource, options);
+    //console.log("API Request:", API + resource, options);
     try {
       const response = await fetch(API + resource, {
         ...options,

@@ -1,6 +1,103 @@
 // import { useState, useEffect, useCallback } from "react";
 // import { useApi } from "../../api/ApiContext";
 // import { useAuth } from "../../hooks/useAuth";
+import { useEffect } from "react";
+import useMutation from "../../api/useMutation";
+import SaveHashtags from "./hashtags/SaveHashtags";
+import LikesDislikes from "./interactions/LikesDislikes";
+
+export default function Posts(props) {
+  const { searchArr } = props;
+  const {
+    mutate,
+    data: posts,
+    error,
+    loading,
+  } = useMutation("POST", "/search", ["Posts"]);
+
+  const getPosts = async () => {
+    try {
+      await mutate(searchArr);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, [searchArr]);
+
+  if (error)
+    return (
+      <>
+        <h1>{error}</h1>
+      </>
+    );
+  if (loading)
+    return (
+      <>
+        <h1>Loading</h1>
+      </>
+    );
+  if (posts) {
+    return (
+      <div className="posts-area">
+        <div className="posts-section">
+          <h1>Posts ({posts.length || 0})</h1>
+
+          {posts.length === 0 && <p>You haven&apos;t posted anything yet.</p>}
+
+          {posts.map((post) => (
+            <div key={post.id}>
+              <br />
+              <h2>{post.title}</h2>
+              <div>
+
+
+                {post.post_type === "Text" ? (
+                  <>
+                    <h3>{post.user_owner}</h3>
+                    <p>{post.description}</p>
+                  </>
+                ) : (
+                  <></>
+                )}
+
+
+                {post.post_type === "Image" ? (
+                  <>
+                    <h3>{post.user_owner}</h3>
+                    <img className="post-image" src={post.post_url}/>
+                    <p>{post.description}</p>
+                  </>
+                ) : <></>}
+
+                {post.post_type === "YouTube" ? (
+                  <>
+                    <h3>{post.user_owner}</h3>
+                    <iframe width="512" height="312" src={post.post_url} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                    <p>{post.description}</p>
+                  </>
+                ) : <></>}
+
+                <p>date: {post.post_date}</p>
+                    {post.hashtags ? (
+                      <>
+                        {post.hashtags.map((hashtag, index) => (
+                          <SaveHashtags key={index} hashtag={hashtag} />
+                        ))}
+                      </>
+                    ) : <></>}
+                <LikesDislikes post={post}/>
+
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+}
 
 // export default function Posts() {
 //   const [posts, setPosts] = useState([]);
