@@ -8,24 +8,25 @@ export default function useQuery(resource, tag) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const query = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const result = await request(resource);
-      setData(result);
-    } catch (e) {
-      console.error(e);
-      setError(e.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const query = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const result = await request(resource);
+        setData(result);
+      } catch (e) {
+        console.error(e);
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (tag) provideTag(tag, query);
     query();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resource, tag]);
 
   return { data, loading, error };
 }
