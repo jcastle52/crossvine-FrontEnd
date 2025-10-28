@@ -6,23 +6,26 @@ import ProfileCreate from "./ProfileCreate";
 export default function ProfilePage() {
   const { token } = useAuth();
 
-
   if (!token) {
     return (
-      <>
-        <div>
+      <div className="profile-container">
+        <div className="profile-header">
           <h1>Please sign in</h1>
+          <p>
+            <a href="/login">Go to Login</a>
+          </p>
         </div>
-      </>
+      </div>
     );
-  } else
-    return (
-      <>
+  }
+
+  return (
+    <div className="profile-container">
       <ProfileCreate />
       <ProfilePosts />
-        <ProfileSidebar />
-      </>
-    );
+      <ProfileSidebar />
+    </div>
+  );
 }
 //   if (!isLoggedIn()) {
 //     return (

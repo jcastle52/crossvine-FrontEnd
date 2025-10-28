@@ -8,7 +8,7 @@
 /* Theme Variables */
 :root {
   /* Light Mode (Default) */
-  --bg-image: url("IMG/LightMode.png");
+  --bg-image: url("/IMG/LightMode.png");
   --sidebar-bg: #1e8449;
   --topbar-bg: #2d5a3d;
   --main-content-bg: rgba(236, 240, 241, 0.7);
@@ -18,7 +18,7 @@
 
 [data-theme="dark"] {
   /* Dark Mode */
-  --bg-image: url("IMG/DarkMode.png");
+  --bg-image: url("/IMG/DarkMode.png");
   --sidebar-bg: #0f3d2c;
   --topbar-bg: #1a4332;
   --main-content-bg: rgba(44, 62, 80, 0.9);
@@ -777,6 +777,16 @@ body {
 
 .post-content small {
   color: #27ae60;
+  font-weight: 600;
+}
+
+/* Post Title with Dividing Line */
+.post-content h4 {
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #bdc3c7;
+  color: #27ae60;
+  font-size: 18px;
   font-weight: 600;
 }
 
