@@ -28,7 +28,7 @@ export default function ThemeToggle() {
   return (
     <div className="theme-toggle-section">
       <div className="theme-toggle">
-        <span className="theme-label">Dark Mode</span>
+        <span className="theme-label">Light/Dark Mode</span>
         <div className="toggle-switch">
           <input
             type="checkbox"
