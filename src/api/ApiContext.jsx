@@ -9,6 +9,8 @@ export function ApiProvider({ children }) {
   const headers = { "Content-Type": "application/json" };
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
+  const [tags, setTags] = useState({});
+
   const request = async (resource, options) => {
     //console.log("API Request:", API + resource, options);
     try {
@@ -16,20 +18,19 @@ export function ApiProvider({ children }) {
         ...options,
         headers,
       });
-      //console.log("API Response:", response.status, response.statusText);
+      
       const isJson = /json/.test(response.headers.get("Content-Type"));
       const result = isJson ? await response.json() : undefined;
-      //console.log("API Result:", result);
-      if (!response.ok)
-        throw Error(result?.message ?? "Something went wrong :(");
+
+      if (!response.ok) {
+        throw Error(result ?? "Something went wrong :(");
+      }
       return result;
     } catch (error) {
       console.error("API Error:", error);
       throw error;
     }
   };
-
-  const [tags, setTags] = useState({});
 
   const provideTag = (tag, query) => {
     setTags({ ...tags, [tag]: query });
@@ -38,7 +39,9 @@ export function ApiProvider({ children }) {
   const invalidateTags = (tagsToInvalidate) => {
     tagsToInvalidate.forEach((tag) => {
       const query = tags[tag];
-      if (query) query();
+      if (query) {
+        query();
+      }
     });
   };
 

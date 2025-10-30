@@ -1,4 +1,4 @@
-export default function SearchBar({ setSearchArr }) {
+export default function SearchBar({ setSearchArr, searchArr }) {
 
   const search = async (formData) => {
     const search = formData.get("search");
@@ -27,16 +27,17 @@ export default function SearchBar({ setSearchArr }) {
           id="search"
           placeholder="crossvine #crossvine"
           name="search"
-          required
         />
         <label>Sort by date</label>
         <select className="form-control" id="date" name="date">
+          {searchArr.date ? (<option value={searchArr.date}>{searchArr.date}</option>) : <></>}
           <option value={"None"}>None</option>
           <option value={"Newest"}>Newest</option>
           <option value={"Oldest"}>Oldest</option>
         </select>
         <label>Sort by most Likes or Dislikes</label>
         <select className="form-control" id="approval" name="approval">
+          {searchArr.approval ? (<option value={searchArr.approval}>{searchArr.approval}</option>) : <></>}
           <option value={"None"}>None</option>
           <option value={"Likes"}>Likes</option>
           <option value={"Dislikes"}>Dislikes</option>
@@ -46,7 +47,7 @@ export default function SearchBar({ setSearchArr }) {
           <option value={"None"}>None</option>
           <option value={"Text"}>Text Posts</option>
           <option value={"Image"}>Image Posts</option>
-          <option value={"Youtube"}>Youtube Posts</option>
+          <option value={"YouTube"}>Youtube Posts</option>
         </select>
         <button>Search Posts</button>
       </form>
