@@ -2,7 +2,7 @@ import ThemeToggle from "../../theme/ThemeToggle";
 import { useAuth } from "../../../auth/AuthContext";
 import UserHashtags from "./UserHashtags";
 
-export default function HashtagsSidebar({ setSearchArr }) {
+export default function HashtagsSidebar() {
   const { token } = useAuth();
 
   return (
@@ -13,11 +13,13 @@ export default function HashtagsSidebar({ setSearchArr }) {
           <div className="saved-hashtags">
             {token ? (
               <>
-                <UserHashtags setSearchArr={setSearchArr} />
+                <UserHashtags />
               </>
             ) : (
               <>
-                <p className="no-hashtags">Sign up or login to save hashtags!</p>
+                <p className="no-hashtags">
+                  Sign up or login to save hashtags!
+                </p>
               </>
             )}
           </div>

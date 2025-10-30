@@ -1,18 +1,22 @@
 import useQuery from "../../../api/useQuery";
+import { useSearch } from "../../../contexts/SearchContext";
 import DeleteHashtags from "./DeleteHashtags";
 
-export default function UserHashtags({ setSearchArr }) {
+export default function UserHashtags() {
+  const { setSearchArr } = useSearch();
   const { data: hashtags, error, loading } = useQuery(`/hashtags`, "hashtags");
 
   const search = async (hashtag) => {
-    const search = hashtag;
-    let date = "Newest";
-    let approval = "Likes";
-    let type = null;
-    try {
-      setSearchArr({ date, approval, type, search });
-    } catch (error) {
-      console.log(error);
+    if (setSearchArr) {
+      const search = hashtag;
+      let date = "Newest";
+      let approval = "Likes";
+      let type = null;
+      try {
+        setSearchArr({ date, approval, type, search });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -32,14 +36,18 @@ export default function UserHashtags({ setSearchArr }) {
   if (hashtags)
     return (
       <div>
-          {hashtags.map((hashtag, index) => (
-            <div className="hashtags" key={index}>
-              <span className="hashtag" onClick={() => search(hashtag)}>
-                {hashtag}
-              </span>
-              <DeleteHashtags hashtag={hashtag} />
-            </div>
-          ))}
+        {hashtags.map((hashtag, index) => (
+          <div className="hashtags" key={index}>
+            <span
+              className="hashtag"
+              onClick={setSearchArr ? () => search(hashtag) : undefined}
+              style={setSearchArr ? {} : { cursor: "default" }}
+            >
+              {hashtag}
+            </span>
+            <DeleteHashtags hashtag={hashtag} />
+          </div>
+        ))}
       </div>
     );
 }

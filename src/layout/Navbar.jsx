@@ -33,14 +33,14 @@ export default function Navbar() {
 
         {token ? (
           <>
-            <NavLink
-              to="/"
+            <button
               className="nav-link"
               id="loginToggle"
               onClick={() => logout()}
+              style={{ background: "none", border: "none", cursor: "pointer" }}
             >
               Logout
-            </NavLink>
+            </button>
             <NavLink to="/profile" className="nav-link">
               Profile
             </NavLink>
