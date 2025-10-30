@@ -25,7 +25,6 @@ export default function useQuery(resource, tag) {
 
     if (tag) provideTag(tag, query);
     query();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resource, tag]);
 
   return { data, loading, error };

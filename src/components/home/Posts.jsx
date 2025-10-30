@@ -4,10 +4,9 @@
 import { useEffect } from "react";
 import useMutation from "../../api/useMutation";
 import SaveHashtags from "./hashtags/SaveHashtags";
-import LikesDislikes from "./interactions/LikesDislikes";
+import LikesDislikes from "./approvals/LikesDislikes";
 
-export default function Posts(props) {
-  const { searchArr } = props;
+export default function Posts({ searchArr, setCommentPost }) {
   const {
     mutate,
     data: posts,
@@ -45,8 +44,6 @@ export default function Posts(props) {
         <div className="posts-section">
           <h1>Posts ({posts.length || 0})</h1>
 
-          {posts.length === 0 && <p>You haven&apos;t posted anything yet.</p>}
-
           {posts.map((post) => (
             <div key={post.id}>
               <br />
@@ -75,7 +72,7 @@ export default function Posts(props) {
                 {post.post_type === "YouTube" ? (
                   <>
                     <h3>{post.user_owner}</h3>
-                    <iframe width="512" height="312" src={post.post_url} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                    <iframe width="512" height="312" src={post.post_url} title="YouTube video player" frameBorder="0" allow=" compute-pressure; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                     <p>{post.description}</p>
                   </>
                 ) : <></>}
@@ -88,9 +85,9 @@ export default function Posts(props) {
                         ))}
                       </>
                     ) : <></>}
-                <LikesDislikes post={post}/>
-
               </div>
+              <LikesDislikes post={post}/>
+              <button onClick={() => setCommentPost(post)}>Comments</button>
             </div>
           ))}
         </div>

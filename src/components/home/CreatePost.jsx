@@ -10,7 +10,7 @@ export default function CreatePost() {
   const [error, setError] = useState("");
 
   // Don't render if user is not logged in
-  if (!token()) {
+  if (!token) {
     return null;
   }
 
