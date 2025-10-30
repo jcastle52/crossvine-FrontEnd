@@ -4,10 +4,9 @@
 import { useEffect } from "react";
 import useMutation from "../../api/useMutation";
 import SaveHashtags from "./hashtags/SaveHashtags";
-import LikesDislikes from "./interactions/LikesDislikes";
+import LikesDislikes from "./approvals/LikesDislikes";
 
-export default function Posts(props) {
-  const { searchArr } = props;
+export default function Posts({ searchArr, setCommentPost }) {
   const {
     mutate,
     data: posts,
@@ -44,8 +43,6 @@ export default function Posts(props) {
       <div className="posts-area">
         <div className="posts-section">
           <h1>Posts ({posts.length || 0})</h1>
-
-          {posts.length === 0 && <p>You haven&apos;t posted anything yet.</p>}
 
           {posts.map((post) => (
             <div key={post.id} className="post">
@@ -123,6 +120,8 @@ export default function Posts(props) {
                   <LikesDislikes post={post} />
                 </div>
               </div>
+              <LikesDislikes post={post}/>
+              <button onClick={() => setCommentPost(post)}>Comments</button>
             </div>
           ))}
         </div>

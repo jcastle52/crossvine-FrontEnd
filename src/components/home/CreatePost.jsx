@@ -10,8 +10,9 @@ export default function CreatePost() {
   const [error, setError] = useState("");
 
   // Don't render if user is not logged in
-
-  if (!token) return null;
+  if (!token) {
+    return null;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -1,4 +1,5 @@
-export default function SearchBar({ setSearchArr }) {
+export default function SearchBar({ setSearchArr, searchArr }) {
+
   const search = async (formData) => {
     const search = formData.get("search");
     let date = formData.get("date");

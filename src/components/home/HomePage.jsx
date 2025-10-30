@@ -1,15 +1,22 @@
 import SearchBar from "./SearchBar";
 import Posts from "./Posts";
 import { useSearch } from "../../contexts/SearchContext";
+import HashtagsSidebar from "./hashtags/HashtagsSidebar";
+import CommentsSidebar from "./comments/CommentsSidebar";
+import { useState } from "react";
 
 export default function HomePage() {
   const { searchArr, setSearchArr } = useSearch();
 
+  const [commentPost, setCommentPost] = useState()
+
   return (
-    <div className="home-container">
-      <SearchBar setSearchArr={setSearchArr} />
-      <Posts searchArr={searchArr} />
-    </div>
+    <>
+      <SearchBar setSearchArr={setSearchArr} searchArr={searchArr}/>
+      <HashtagsSidebar setSearchArr={setSearchArr} />
+      <Posts searchArr={searchArr} setCommentPost={setCommentPost}/>
+      {commentPost ? <CommentsSidebar post={commentPost}/> : <></>}
+    </>
   );
 }
 

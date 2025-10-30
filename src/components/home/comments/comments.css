@@ -1,0 +1,14 @@
+.comment-sidebar {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 280px;
+  height: calc(100vh - 120px);
+  background: white;
+  padding: 25px;
+  overflow-y: auto;
+  z-index: 101; /* Higher z-index to ensure it's above background */
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #27ae60;
+}
