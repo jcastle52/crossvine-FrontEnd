@@ -7,6 +7,7 @@ export default function ProfileCreate() {
     title: "",
     description: "",
     type: "",
+    url: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -30,6 +31,7 @@ export default function ProfileCreate() {
         title: "",
         description: "",
         type: "",
+        url: "",
       });
     } catch (error) {
       console.log("Error creating post:", error);
@@ -94,6 +96,32 @@ export default function ProfileCreate() {
             Choose the type of content you&apos;re sharing
           </small>
         </div>
+
+        {(formData.type === "Image" || formData.type === "YouTube") && (
+          <div className="form-group">
+            <label htmlFor="postUrl">
+              {formData.type === "Image" ? "Image URL" : "YouTube URL"}
+            </label>
+            <input
+              type="url"
+              id="postUrl"
+              name="url"
+              placeholder={
+                formData.type === "Image"
+                  ? "Enter image URL (e.g., https://example.com/image.jpg)"
+                  : "Enter YouTube URL (e.g., https://youtube.com/watch?v=...)"
+              }
+              value={formData.url}
+              onChange={handleInputChange}
+              required
+            />
+            <small className="form-help">
+              {formData.type === "Image"
+                ? "Provide a direct link to your image"
+                : "Provide a link to your YouTube video"}
+            </small>
+          </div>
+        )}
 
         <button type="submit" className="register-btn" disabled={isSubmitting}>
           {isSubmitting ? "Creating Post..." : "Create Post"}

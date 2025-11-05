@@ -8,41 +8,20 @@ export default function Register() {
     fullname: "",
     password: "",
     bio: "",
-    profileImage: null,
+    profileImage: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState("");
 
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    const { name, value, type, files } = e.target;
-
-    if (type === "file") {
-      const file = files[0];
-      setFormData((prev) => ({
-        ...prev,
-        [name]: file,
-      }));
-
-      // Handle image preview
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setImagePreview(e.target.result);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        setImagePreview("");
-      }
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -147,23 +126,19 @@ export default function Register() {
             </div>
 
             <div className="form-group" id="profileImageGroup">
-              <label htmlFor="profileImage">Profile Image</label>
+              <label htmlFor="profileImage">Profile Image URL</label>
               <input
-                type="file"
+                type="url"
                 id="profileImage"
                 name="profileImage"
-                accept="image/*"
+                placeholder="Enter image URL (optional)"
+                value={formData.profileImage}
                 onChange={handleInputChange}
                 disabled={loading}
               />
               <small className="form-help">
-                Optional: Upload a profile picture (JPG, PNG, GIF)
+                Optional: Paste a link to your profile picture
               </small>
-              <div className="image-preview" id="imagePreview">
-                {imagePreview && (
-                  <img src={imagePreview} alt="Profile Preview" />
-                )}
-              </div>
             </div>
 
             <div className="form-group" id="bioGroup">
