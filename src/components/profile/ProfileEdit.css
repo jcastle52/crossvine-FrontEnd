@@ -1,75 +1,365 @@
+/* Profile Edit Modal Overlay */
 .profile-edit-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .profile-edit-modal {
-  background-color: var(--main-content-bg);
-  background-image: var(--bg-image);
+  background: white;
   border-radius: 10px;
-  padding: 30px;
+  padding: 25px;
   max-width: 500px;
   width: 90%;
-  max-height: 80vh;
+  max-height: 85vh;
   overflow-y: auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  color: var(--text-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 2px solid #27ae60;
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* Header with close button */
+.profile-edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #27ae60;
 }
 
 .profile-edit-modal h2 {
-  color: #2ecc71;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 600;
+  color: #2d5a3d;
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  flex: 1;
 }
 
-.profile-edit-error {
-  color: #e74c3c;
-  margin-bottom: 15px;
-  padding: 10px;
-  background-color: var(--main-content-bg);
-  border: 1px solid #e74c3c;
-  border-radius: 5px;
+.profile-edit-close {
+  background: none !important;
+  border: none !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  color: #e74c3c !important;
+  padding: 0 !important;
+  width: 30px !important;
+  height: 30px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  transition: all 0.3s ease !important;
+}
+
+.profile-edit-close:hover:not(:disabled) {
+  color: #c0392b !important;
+  background-color: rgba(231, 76, 60, 0.1) !important;
+}
+
+.profile-edit-close:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* Form Styling to Match Site */
+.profile-edit-modal .register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile-edit-modal .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-edit-modal .form-group label {
+  color: #2d5a3d;
+  font-weight: bold;
+  margin-bottom: 5px;
   font-size: 14px;
 }
 
-.profile-edit-buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 20px;
+.profile-edit-modal .form-group input,
+.profile-edit-modal .form-group textarea,
+.profile-edit-modal .form-group select {
+  padding: 8px 12px;
+  border: 2px solid #27ae60;
+  border-radius: 6px;
+  background: white;
+  color: #2d5a3d;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  min-width: 160px;
 }
 
+.profile-edit-modal .form-group select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232d5a3d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.profile-edit-modal .form-group input:focus,
+.profile-edit-modal .form-group textarea:focus,
+.profile-edit-modal .form-group select:focus {
+  outline: none;
+  border-color: #1e8449;
+  box-shadow: 0 0 5px rgba(39, 174, 96, 0.3);
+}
+
+.profile-edit-modal .form-group input:disabled,
+.profile-edit-modal .form-group textarea:disabled {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.profile-edit-modal .form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.profile-edit-modal .form-help {
+  color: #7f8c8d;
+  font-size: 12px;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* Error Message Styling */
+.profile-edit-error {
+  color: #e74c3c;
+  background-color: #fdf2f2;
+  border: 1px solid #f5c6c7;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-edit-error::before {
+  content: "⚠️";
+  font-size: 16px;
+}
+
+/* Button Container */
+.profile-edit-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #ecf0f1;
+}
+
+/* Cancel Button */
 .profile-edit-cancel {
-  padding: 12px 20px;
+  padding: 10px 20px;
   background-color: #95a5a6;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.profile-edit-cancel:hover:not(:disabled) {
+  background-color: #7f8c8d;
+  transform: translateY(-1px);
 }
 
 .profile-edit-cancel:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
+/* Submit Button (using site's register-btn style) */
 .profile-edit-submit {
-  opacity: 1;
-  cursor: pointer;
+  background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  opacity: 1 !important;
+}
+
+.profile-edit-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #229954, #27ae60) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 10px rgba(39, 174, 96, 0.3) !important;
 }
 
 .profile-edit-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.profile-edit-submit:active:not(:disabled) {
+  transform: translateY(0) !important;
+}
+
+/* Custom Scrollbar */
+.profile-edit-modal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.profile-edit-modal::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.profile-edit-modal::-webkit-scrollbar-thumb {
+  background: #27ae60;
+  border-radius: 4px;
+}
+
+.profile-edit-modal::-webkit-scrollbar-thumb:hover {
+  background: #229954;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-edit-modal {
+    width: 95%;
+    padding: 20px;
+    max-height: 90vh;
+  }
+  
+  .profile-edit-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .profile-edit-cancel,
+  .profile-edit-submit {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Dark Theme Support */
+[data-theme="dark"] .profile-edit-modal {
+  background-color: rgba(52, 73, 94, 0.95) !important;
+  border: 2px solid #27ae60 !important;
+  color: #ecf0f1 !important;
+}
+
+[data-theme="dark"] .profile-edit-header {
+  border-bottom-color: #27ae60 !important;
+}
+
+[data-theme="dark"] .profile-edit-modal h2 {
+  color: #4caf50 !important;
+}
+
+[data-theme="dark"] .profile-edit-close {
+  color: #ff6b6b !important;
+}
+
+[data-theme="dark"] .profile-edit-close:hover:not(:disabled) {
+  color: #ff5252 !important;
+  background-color: rgba(255, 107, 107, 0.1) !important;
+}
+
+[data-theme="dark"] .profile-edit-modal .form-group label {
+  color: #4caf50 !important;
+}
+
+[data-theme="dark"] .profile-edit-modal .form-group input,
+[data-theme="dark"] .profile-edit-modal .form-group textarea,
+[data-theme="dark"] .profile-edit-modal .form-group select {
+  background-color: rgba(44, 62, 80, 0.8) !important;
+  border-color: #27ae60 !important;
+  color: #ecf0f1 !important;
+}
+
+[data-theme="dark"] .profile-edit-modal .form-group input:focus,
+[data-theme="dark"] .profile-edit-modal .form-group textarea:focus,
+[data-theme="dark"] .profile-edit-modal .form-group select:focus {
+  border-color: #4caf50 !important;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3) !important;
+}
+
+[data-theme="dark"] .profile-edit-modal .form-group input:disabled,
+[data-theme="dark"] .profile-edit-modal .form-group textarea:disabled {
+  background-color: rgba(44, 62, 80, 0.4) !important;
+}
+
+[data-theme="dark"] .profile-edit-modal .form-help {
+  color: #b0bec5 !important;
+}
+
+[data-theme="dark"] .profile-edit-error {
+  background-color: rgba(231, 76, 60, 0.1) !important;
+  border-color: #e74c3c !important;
+  color: #ff6b6b !important;
+}
+
+[data-theme="dark"] .profile-edit-buttons {
+  border-top-color: #34495e !important;
+}
+
+[data-theme="dark"] .profile-edit-cancel {
+  background-color: #34495e !important;
+}
+
+[data-theme="dark"] .profile-edit-cancel:hover:not(:disabled) {
+  background-color: #34495e !important;
+}
+
+/* Dark theme select styling for ProfileEdit */
+[data-theme="dark"] .profile-edit-modal .form-group select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ecf0f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+}
+
+[data-theme="dark"] .profile-edit-modal .form-group select option {
+  background-color: rgba(44, 62, 80, 0.95) !important;
+  color: #ecf0f1 !important;
 }

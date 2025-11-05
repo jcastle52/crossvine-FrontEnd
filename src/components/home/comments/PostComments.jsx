@@ -12,7 +12,7 @@ export default function PostComments({ postId }) {
       return (
         <div>
           <h2>All Comments</h2>
-          <p>No comments</p>
+          <p style={{ fontStyle: 'italic', color: '#7f8c8d', textAlign: 'center' }}>No comments yet</p>
         </div>
       );
     } else if (token && userData) {
@@ -20,10 +20,15 @@ export default function PostComments({ postId }) {
         <div>
           <h2>All Comments</h2>
           {data.map((comment) => (
-            <div key={comment.id}>
+            <div key={comment.id} className="comment-item">
               <h3>{comment.user_owner}</h3>
               <p>{comment.comment}</p>
-              {comment.user_owner === userData.username ? (<RemoveComment id={comment.id}/>) : (<></>)}
+              <small>{new Date(comment.post_date || comment.created_at).toLocaleString()}</small>
+              {comment.user_owner === userData.username ? (
+                <div style={{ marginTop: '8px' }}>
+                  <RemoveComment id={comment.id}/>
+                </div>
+              ) : null}
             </div>
           ))}
         </div>
@@ -33,9 +38,10 @@ export default function PostComments({ postId }) {
         <div>
           <h2>All Comments</h2>
           {data.map((comment) => (
-            <div key={comment.id}>
+            <div key={comment.id} className="comment-item">
               <h3>{comment.user_owner}</h3>
               <p>{comment.comment}</p>
+              <small>{new Date(comment.post_date || comment.created_at).toLocaleString()}</small>
             </div>
           ))}
         </div>

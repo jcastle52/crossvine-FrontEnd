@@ -12,7 +12,18 @@ export default function SaveHashtags({ hashtag }) {
   return (
     <>
       <p>{hashtag}</p>
-      <button onClick={() => mutate({ hashtag })}>❤️</button>
+      <button 
+        onClick={() => mutate({ hashtag })} 
+        style={{ 
+          color: '#27ae60', 
+          background: 'none', 
+          border: 'none', 
+          fontSize: '18px', 
+          cursor: 'pointer' 
+        }}
+      >
+        ♥
+      </button>
     </>
   );
 }

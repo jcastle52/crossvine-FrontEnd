@@ -56,7 +56,18 @@ export default function ProfileEdit({ user, onSave, onCancel }) {
   return (
     <div className="profile-edit-overlay">
       <div className="profile-edit-modal">
-        <h2>Edit Profile</h2>
+        <div className="profile-edit-header">
+          <h2>Edit Profile</h2>
+          <button 
+            type="button"
+            className="profile-edit-close"
+            onClick={onCancel}
+            disabled={isSubmitting}
+            title="Close"
+          >
+            ✕
+          </button>
+        </div>
 
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-group">
