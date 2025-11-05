@@ -8,6 +8,7 @@ export default function ProfileCreate() {
     description: "",
     type: "",
     url: "",
+    hashtags: []
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -25,13 +26,16 @@ export default function ProfileCreate() {
 
     try {
       console.log("Creating post with data:", formData);
-      await mutate(formData);
+      const hashtagsArr = formData.hashtags.split(" ")
+
+      await mutate({title: formData.title, description: formData.description, type: formData.type, url: formData.url, hashtags: hashtagsArr});
       console.log("Post created successfully!");
       setFormData({
         title: "",
         description: "",
         type: "",
         url: "",
+        hashtags: []
       });
     } catch (error) {
       console.log("Error creating post:", error);
@@ -122,6 +126,19 @@ export default function ProfileCreate() {
             </small>
           </div>
         )}
+
+        <div className="form-group">
+          <label htmlFor="postTitle">Hashtags</label>
+          <input
+            type="text"
+            id="postHashtags"
+            name="hashtags"
+            placeholder="Enter hashtags"
+            value={formData.hashtags}
+            onChange={handleInputChange}
+          />
+          <small className="form-help">Add some hashtags Maximum: 5</small>
+        </div>
 
         <button type="submit" className="register-btn" disabled={isSubmitting}>
           {isSubmitting ? "Creating Post..." : "Create Post"}

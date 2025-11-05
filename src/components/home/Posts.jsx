@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import useMutation from "../../api/useMutation";
 import SaveHashtags from "./hashtags/SaveHashtags";
 import LikeDislike from "../interactions/LikeDislike";
+import { useNavigate } from "react-router";
 
 export default function Posts({ searchArr, setCommentPost }) {
   const {
@@ -13,6 +14,8 @@ export default function Posts({ searchArr, setCommentPost }) {
     error,
     loading,
   } = useMutation("POST", "/search", ["Posts"]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPosts = async () => {
@@ -68,7 +71,13 @@ export default function Posts({ searchArr, setCommentPost }) {
               <div className="post-content">
                 <h4 style={{ color: "#27ae60" }}>{post.title}</h4>
                 <p>
-                  <strong>{post.user_owner}</strong>
+                  <strong  style={{ 
+          color: '#ffffffff',
+          background: 'none', 
+          border: 'none', 
+          fontSize: '18px', 
+          cursor: 'pointer' 
+        }} onClick={() => navigate(`/users/${post.user_owner}`)}>{post.user_owner}</strong>
                 </p>
 
                 {post.post_type === "Text" ? (

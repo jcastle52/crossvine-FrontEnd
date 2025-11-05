@@ -20,6 +20,7 @@ export function AuthProvider({ children }) {
     const result = await response.text();
     if (!response.ok) throw Error(result);
     setToken(result);
+    return true
   };
 
   const login = async (credentials) => {

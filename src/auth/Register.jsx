@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "./AuthContext";
+import HashtagsSidebar from "../components/home/hashtags/HashtagsSidebar";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ export default function Register() {
     setError("");
 
     // Basic validation
-    if (!formData.username || !formData.fullname || !formData.password) {
+    if (!formData.username || !formData.profileName || !formData.password) {
       console.log("❌ Validation failed: missing required fields");
       setError("Please fill in all required fields.");
       return;
@@ -48,12 +49,11 @@ export default function Register() {
 
     try {
       const result = await register(formData);
-
-      if (result.success) {
+      if (result === true) {
         console.log("Registration successful");
         navigate("/"); // Redirect to home page
       } else {
-        setError(result.error || "Registration failed. Please try again.");
+        setError("Registration failed. Please try again.");
       }
     } catch (err) {
       console.error("Registration error:", err);
@@ -65,6 +65,7 @@ export default function Register() {
 
   return (
     <>
+    <HashtagsSidebar />
       <div className="register-layout">
         <div className="register-container">
           <h1 id="formTitle">Join Crossvine</h1>
@@ -95,13 +96,13 @@ export default function Register() {
             </div>
 
             <div className="form-group" id="fullnameGroup">
-              <label htmlFor="fullname">Full Name</label>
+              <label htmlFor="profileName">Full Name</label>
               <input
                 type="text"
-                id="fullname"
-                name="fullname"
+                id="profileName"
+                name="profileName"
                 placeholder="Enter your full name"
-                value={formData.fullname}
+                value={formData.profileName}
                 onChange={handleInputChange}
                 required
                 disabled={loading}

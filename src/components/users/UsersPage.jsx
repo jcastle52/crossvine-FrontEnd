@@ -4,7 +4,7 @@ import { useAuth } from "../../auth/AuthContext";
 import useQuery from "../../api/useQuery";
 import Comments from "../comments/Comments";
 import LikeDislike from "../interactions/LikeDislike";
-import RatioBar from "../profile/RatioBar";
+//import RatioBar from "../profile/RatioBar";
 import ProfileEdit from "../profile/ProfileEdit";
 
 export default function UsersPage() {
@@ -147,7 +147,6 @@ export default function UsersPage() {
         )}
 
         {/* Engagement Ratio Bar */}
-        <RatioBar username={user.username} />
 
         {/* Profile Edit Modal */}
         {isEditing && (
