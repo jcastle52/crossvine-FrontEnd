@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import { useAuth } from "./AuthContext";
+import HashtagsSidebar from "../components/home/hashtags/HashtagsSidebar";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -62,6 +63,8 @@ export default function Login() {
   };
 
   return (
+    <>
+    <HashtagsSidebar />
     <div className="register-layout">
       <div className="register-container">
         <h1 id="formTitle">Welcome Back</h1>
@@ -124,5 +127,6 @@ export default function Login() {
         <img src="/IMG/LOGO.png" alt="Crossvine Logo" className="main-logo" />
       </div>
     </div>
+    </>
   );
 }

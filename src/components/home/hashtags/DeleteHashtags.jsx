@@ -6,7 +6,7 @@ export default function DeleteHashtags({ hashtag }) {
   if (error)
     return (
       <>
-        <p>Failed to delete</p>
+        <p>Failed to delete {error}</p>
       </>
     );
   return (

@@ -5,6 +5,7 @@ import DeleteHashtags from "./DeleteHashtags";
 export default function UserHashtags() {
   const { setSearchArr } = useSearch();
   const { data: hashtags, error, loading } = useQuery(`/hashtags`, "hashtags");
+  console.log(hashtags)
 
   const search = async (hashtag) => {
     if (setSearchArr) {

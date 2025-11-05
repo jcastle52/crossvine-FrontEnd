@@ -1,18 +1,20 @@
 import useMutation from "../../../api/useMutation";
+import { useAuth } from "../../../auth/AuthContext";
 
 export default function SaveHashtags({ hashtag }) {
   const { mutate, error } = useMutation("POST", "/hashtags", ["hashtags"]);
+  const { token } = useAuth()
 
   if (error)
     return (
       <>
-        <p>Failed to save</p>
+        <p>{error}</p>
       </>
     );
   return (
     <>
       <p>{hashtag}</p>
-      <button 
+      {token ? <button 
         onClick={() => mutate({ hashtag })} 
         style={{ 
           color: '#27ae60', 
@@ -23,7 +25,8 @@ export default function SaveHashtags({ hashtag }) {
         }}
       >
         ♥
-      </button>
+      </button> : <></>}
+      
     </>
   );
 }

@@ -2,6 +2,7 @@ import { useAuth } from "../../auth/AuthContext";
 import ProfileSidebar from "../home/ProfileSidebar";
 import ProfilePosts from "./ProfilePosts";
 import ProfileCreate from "./ProfileCreate";
+import HashtagsSidebar from "../home/hashtags/HashtagsSidebar";
 
 export default function ProfilePage() {
   const { token } = useAuth();
@@ -20,11 +21,15 @@ export default function ProfilePage() {
   }
 
   return (
+    <>
+    <HashtagsSidebar />
     <div className="profile-container">
       <ProfileCreate />
       <ProfilePosts />
       <ProfileSidebar />
     </div>
+    </>
+    
   );
 }
 //   if (!isLoggedIn()) {

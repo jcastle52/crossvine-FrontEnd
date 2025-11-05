@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../auth/AuthContext";
 import useQuery from "../../api/useQuery";
-import RatioBar from "../profile/RatioBar";
+//import RatioBar from "../profile/RatioBar";
 import ProfileEdit from "../profile/ProfileEdit";
 
 export default function ProfileSidebar() {
@@ -49,7 +49,6 @@ export default function ProfileSidebar() {
         <div className="profile-bio">{user.bio || "No bio available"}</div>
 
         {/* Engagement Ratio Bar */}
-        <RatioBar username={user.username} />
 
         {/* Edit Profile Button */}
         <button
