@@ -136,6 +136,7 @@ export default function ProfileCreate() {
             placeholder="Enter hashtags"
             value={formData.hashtags}
             onChange={handleInputChange}
+            required
           />
           <small className="form-help">Add some hashtags Maximum: 5</small>
         </div>
