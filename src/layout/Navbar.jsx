@@ -12,20 +12,6 @@ export default function Navbar() {
         </div>
       </NavLink>
 
-      <div className="search-container">
-        <select className="search-type-dropdown" id="searchType">
-          <option value="hashtag">🏷️ Hashtag</option>
-          <option value="user">👤 User</option>
-          <option value="keywords">🔍 Keywords</option>
-        </select>
-        <input
-          type="text"
-          className="search-bar"
-          placeholder="Search hashtags..."
-          id="searchInput"
-        />
-      </div>
-
       <nav className="nav-links">
         <NavLink to="/" className="nav-link">
           Home
