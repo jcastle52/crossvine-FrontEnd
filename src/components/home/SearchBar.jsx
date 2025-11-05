@@ -1,4 +1,6 @@
-export default function SearchBar({ setSearchArr, searchArr }) {
+
+
+export default function SearchBar({ setSearchArr }) {
 
   const search = async (formData) => {
     const search = formData.get("search");
@@ -64,7 +66,7 @@ export default function SearchBar({ setSearchArr, searchArr }) {
             <option value={"None"}>All Types</option>
             <option value={"Text"}>Text Posts</option>
             <option value={"Image"}>Image Posts</option>
-            <option value={"Youtube"}>YouTube Posts</option>
+            <option value={"YouTube"}>YouTube Posts</option>
           </select>
         </div>
 
